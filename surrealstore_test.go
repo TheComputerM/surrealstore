@@ -48,8 +48,7 @@ func TestSurrealStore(t *testing.T) {
 	if err != nil {
 		t.Fatal("Failed to get store", err)
 	}
-
-	defer ss.DB.Close()
+	defer ss.Close()
 
 	// ROUND 1 - Check that the cookie is being saved
 	req, err := http.NewRequest("GET", "http://www.example.com", nil)

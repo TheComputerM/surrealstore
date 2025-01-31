@@ -43,6 +43,10 @@ func NewSurrealStore(db *surrealdb.DB, keyPairs ...[]byte) (*SurrealStore, error
 	return store, nil
 }
 
+func (store *SurrealStore) Close() {
+	store.DB.Close()
+}
+
 func (store *SurrealStore) Get(r *http.Request, name string) (*sessions.Session, error) {
 	return sessions.GetRegistry(r).Get(store, name)
 }

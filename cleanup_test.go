@@ -30,8 +30,7 @@ func TestCleanup(t *testing.T) {
 	if err != nil {
 		t.Fatal("Failed to get store", err)
 	}
-
-	defer ss.DB.Close()
+	defer ss.Close()
 
 	// Start the cleanup goroutine.
 	defer ss.StopCleanup(ss.Cleanup(time.Millisecond * 500))
@@ -63,10 +62,10 @@ func TestCleanup(t *testing.T) {
 		"count(SELECT id FROM sessions WHERE expires_on < time::now());",
 		map[string]interface{}{},
 	)
-	count := (*data)[0].Result
 	if err != nil {
 		t.Fatalf("failed to select expired sessions from DB: %v", err)
 	}
+	count := (*data)[0].Result
 
 	if count > 0 {
 		t.Fatalf("ticker did not delete expired sessions: want 0 got %v", count)
