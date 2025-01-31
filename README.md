@@ -69,7 +69,12 @@ func ExampleHandler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
+To integrate it with [Gin](https://github.com/gin-gonic/gin), create a store mimicking the [postgres driver](https://github.com/gin-contrib/sessions/blob/master/postgres/postgres.go).
+
 ## Thanks
 
 I've primarily just snatched and modified the code from [pgstore](https://github.com/antonlindstrom/pgstore) because it was the one [gin-sessions](https://github.com/gin-contrib/sessions) was using.
 
+## Notes
+
+- Wrapping the time.Time object in a models.CustomDateTime struct because of [this issue](https://github.com/surrealdb/surrealdb.go/issues/181).
