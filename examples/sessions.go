@@ -1,14 +1,3 @@
-# surrealstore
-
-A session store backend for [gorilla/sessions](https://github.com/gorilla/sessions) using [SurrealDB](https://surrealdb.com/).
-
-```sh
-go get -u github.com/thecomputerm/surrealstore
-```
-
-## Example
-
-```go
 package examples
 
 import (
@@ -43,6 +32,7 @@ func ExampleHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Failed to create a store: %v", err)
 	}
+	defer store.Close()
 
 	// Run a background goroutine to clean up expired sessions from the database.
 	defer store.StopCleanup(store.Cleanup(time.Minute * 5))
@@ -67,9 +57,3 @@ func ExampleHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Error saving session: %v", err)
 	}
 }
-```
-
-## Thanks
-
-I've primarily just snatched and modified the code from [pgstore](https://github.com/antonlindstrom/pgstore) because it was the one [gin-sessions](https://github.com/gin-contrib/sessions) was using.
-
